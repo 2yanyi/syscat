@@ -1,8 +1,8 @@
 package cat
 
 import (
+	"github.com/matsuwin/cat/internal"
 	"os"
-	"r/cat/internal"
 )
 
 func SizeFormat(bytes float64) (_ string) { return internal.SizeFormat(bytes) }
