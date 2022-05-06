@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/json-iterator/go"
+	"github.com/matsuwin/stringx"
 	"github.com/pkg/errors"
-	"github.com/utilgo/stringx"
 	"io"
 	"math"
 	"net"
@@ -80,7 +80,7 @@ func FileExist(fp string) bool {
 }
 
 func Json(a interface{}) []byte {
-	data, err := JsonHandler.MarshalIndent(a, "", "  ")
+	data, err := JsonIter().MarshalIndent(a, "", "  ")
 	if err != nil {
 		Stderr(err.Error())
 	}
@@ -102,8 +102,10 @@ func LanAddress() []string {
 	return address
 }
 
+func JsonIter() jsoniter.API {
+	return jsoniter.ConfigFastest
+}
+
 const _KB = 1024
 const _MB = 1024 * 1024
 const _GB = 1024 * 1024 * 1024
-
-var JsonHandler = jsoniter.ConfigFastest
