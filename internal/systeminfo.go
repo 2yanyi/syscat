@@ -68,6 +68,13 @@ func release() string {
 	return strings.Join([]string{name, version}, " ")
 }
 
+func vendor() (_ string) {
+	if product, _ := ghw.Product(); product != nil {
+		return product.Vendor
+	}
+	return
+}
+
 func graphics() []string {
 	drivers := make([]string, 0)
 	info, err := ghw.GPU()

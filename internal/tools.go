@@ -16,11 +16,11 @@ import (
 
 func SizeFormat(bytes float64) (_ string) {
 	if bytes >= _GB {
-		return fmt.Sprintf("%.1fG", bytes/1024/1024/1024)
+		return fmt.Sprintf("%.1fG", bytes/_GB)
 	} else if bytes >= _MB {
-		return fmt.Sprintf("%.1fM", bytes/1024/1024)
+		return fmt.Sprintf("%.1fM", bytes/_MB)
 	} else if bytes >= _KB {
-		return fmt.Sprintf("%.1fK", bytes/1024)
+		return fmt.Sprintf("%.1fK", bytes/_KB)
 	}
 	return
 }
