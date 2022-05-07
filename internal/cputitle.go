@@ -73,34 +73,34 @@ var carefullySelectedCPUs = []string{
 
 	// 锐龙™ 6000
 
-	"AMD Ryzen 9 6980HX, 5.00G, 45W, ?",
-	"AMD Ryzen 9 6980HS, 5.00G, 35W, ?",
-	"AMD Ryzen 9 6900HX, 4.90G, 45W, 593016",
-	"AMD Ryzen 9 6900HS, 4.90G, 35W, 584769",
-	"AMD Ryzen 7 6800H,  4.70G, 45W, 591863",
-	"AMD Ryzen 7 6800HS, 4.70G, 35W, 582170",
-	"AMD Ryzen 5 6600H,  4.50G, 45W, ?",
-	"AMD Ryzen 5 6600HS, 4.50G, 35W, ?",
+	"AMD Ryzen 9 6980HX, 5.00G, 45W, 642142",
+	"AMD Ryzen 9 6980HS, 5.00G, 35W, 636496",
+	"AMD Ryzen 9 6900HX, 4.90G, 45W, 642144",
+	"AMD Ryzen 9 6900HS, 4.90G, 35W, 633897",
+	"AMD Ryzen 7 6800H,  4.70G, 45W, 640091",
+	"AMD Ryzen 7 6800HS, 4.70G, 35W, 631298",
+	"AMD Ryzen 5 6600H,  4.50G, 45W, 628421",
+	"AMD Ryzen 5 6600HS, 4.50G, 35W, 618699",
 
 	// 锐龙™ 5000
 
 	"AMD Ryzen 9 5980HX, 4.80G, 45W, 559653",
-	"AMD Ryzen 9 5980HS, 4.80G, 35W, ?",
+	"AMD Ryzen 9 5980HS, 4.80G, 35W, 540326",
 	"AMD Ryzen 9 5900HX, 4.60G, 45W, 559912",
 	"AMD Ryzen 9 5900HS, 4.60G, 35W, 530856",
 	"AMD Ryzen 7 5800H,  4.40G, 45W, 539419",
 	"AMD Ryzen 7 5800HS, 4.40G, 35W, 487658",
 	"AMD Ryzen 5 5600H,  4.20G, 45W, 457236",
-	"AMD Ryzen 5 5600HS, 4.20G, 35W, ?",
+	"AMD Ryzen 5 5600HS, 4.20G, 35W, 438791",
 
 	// 酷睿™ 12 Gen
 
 	"Intel(R) Core(TM) i9-12900HK CPU, 5.00G, 45W, 728372",
 	"Intel(R) Core(TM) i9-12900H CPU,  5.00G, 45W, 712820",
-	"Intel(R) Core(TM) i7-12800H CPU,  4.80G, 45W, ?",
+	"Intel(R) Core(TM) i7-12800H CPU,  4.80G, 45W, 678769",
 	"Intel(R) Core(TM) i7-12700H CPU,  4.70G, 45W, 667170",
 	"Intel(R) Core(TM) i7-12650H CPU,  4.70G, 45W, 584704",
-	"Intel(R) Core(TM) i5-12600H CPU,  4.50G, 45W, ?",
+	"Intel(R) Core(TM) i5-12600H CPU,  4.50G, 45W, 582765",
 	"Intel(R) Core(TM) i5-12500H CPU,  4.50G, 45W, 582671",
 	"Intel(R) Core(TM) i5-12450H CPU,  4.40G, 45W, 467982",
 }
