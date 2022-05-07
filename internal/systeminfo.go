@@ -13,7 +13,7 @@ type Environment struct {
 	Name       string   `json:"name"`
 	Perf       string   `json:"perf"`
 	Processor  string   `json:"processor"`
-	Graphics   string   `json:"graphics"`
+	Graphics   string   `json:"graphics,omitempty"`
 	Platform   string   `json:"platform"`
 	Kernel     string   `json:"kernel"`
 	Init       string   `json:"init,omitempty"`
@@ -92,6 +92,9 @@ func graphics() []string {
 			continue
 		}
 		if driver.DeviceInfo.Product == nil {
+			continue
+		}
+		if driver.DeviceInfo.Product.Name == "SVGA II Adapter" {
 			continue
 		}
 		if strings.Contains(driver.DeviceInfo.Product.Name, "Graphics") {

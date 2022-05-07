@@ -23,7 +23,7 @@ func cpuTitle() (perf, processor string) {
 	case strings.HasPrefix(stat[0].ModelName, "AMD"):
 		processor = strings.TrimSpace(strings.Split(stat[0].ModelName, "with")[0])
 	case strings.HasPrefix(stat[0].ModelName, "Intel"):
-		processor = strings.TrimSpace(strings.Split(stat[0].ModelName, "CPU")[0])
+		processor = strings.TrimSpace(strings.Split(stat[0].ModelName, "@")[0])
 	}
 	pei := database[processor]
 	if pei.Power != "" {
@@ -95,12 +95,12 @@ var carefullySelectedCPUs = []string{
 
 	// 酷睿™ 12 Gen
 
-	"Intel Core i9-12900HK, 5.00G, 45W, 728372",
-	"Intel Core i9-12900H,  5.00G, 45W, 712820",
-	"Intel Core i7-12800H,  4.80G, 45W, ?",
-	"Intel Core i7-12700H,  4.70G, 45W, 667170",
-	"Intel Core i7-12650H,  4.70G, 45W, 584704",
-	"Intel Core i5-12600H,  4.50G, 45W, ?",
-	"Intel Core i5-12500H,  4.50G, 45W, 582671",
-	"Intel Core i5-12450H,  4.40G, 45W, 467982",
+	"Intel(R) Core(TM) i9-12900HK CPU, 5.00G, 45W, 728372",
+	"Intel(R) Core(TM) i9-12900H CPU,  5.00G, 45W, 712820",
+	"Intel(R) Core(TM) i7-12800H CPU,  4.80G, 45W, ?",
+	"Intel(R) Core(TM) i7-12700H CPU,  4.70G, 45W, 667170",
+	"Intel(R) Core(TM) i7-12650H CPU,  4.70G, 45W, 584704",
+	"Intel(R) Core(TM) i5-12600H CPU,  4.50G, 45W, ?",
+	"Intel(R) Core(TM) i5-12500H CPU,  4.50G, 45W, 582671",
+	"Intel(R) Core(TM) i5-12450H CPU,  4.40G, 45W, 467982",
 }
