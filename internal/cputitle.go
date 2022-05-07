@@ -27,7 +27,7 @@ func cpuTitle() (perf, processor string) {
 	}
 	pei := database[processor]
 	if pei.Power != "" {
-		perf = fmt.Sprintf("Hertz(Max:%s - Power:%s).T%d UP%s", pei.HertzMax, pei.Power, runtime.NumCPU(), pei.Score)
+		perf = fmt.Sprintf("UP%s Hertz(Max:%s Power:%s).T%d", pei.Score, pei.HertzMax, pei.Power, runtime.NumCPU())
 	} else {
 		perf = fmt.Sprintf("Hertz(%.2fG).T%d", stat[0].Mhz/1000, runtime.NumCPU())
 	}
