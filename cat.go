@@ -20,8 +20,8 @@ func FileExist(fp string) bool { return internal.FileExist(fp) }
 
 func Json(a interface{}) []byte { return internal.Json(a) }
 
-func LanAddress() []string { return internal.LanAddress() }
-
 func JsonIter() jsoniter.API { return internal.JsonIter() }
+
+func LanAddress() []string { return internal.LanAddress() }
 
 func SystemInfo() *internal.Environment { return internal.SystemInfo() }

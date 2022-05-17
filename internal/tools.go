@@ -87,6 +87,10 @@ func Json(a interface{}) []byte {
 	return data
 }
 
+func JsonIter() jsoniter.API {
+	return jsoniter.ConfigFastest
+}
+
 func LanAddress() []string {
 	address := make([]string, 0, 10)
 	nia, _ := net.InterfaceAddrs()
@@ -100,10 +104,6 @@ func LanAddress() []string {
 		}
 	}
 	return address
-}
-
-func JsonIter() jsoniter.API {
-	return jsoniter.ConfigFastest
 }
 
 const _KB = 1024
