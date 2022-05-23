@@ -23,7 +23,7 @@ type Environment struct {
 
 func SystemInfo() *Environment {
 	it := &Environment{}
-	it.cpuTitle().vendor().kernel().release()
+	it.vendor().kernel().release().cpuTitle()
 	switch runtime.GOOS {
 
 	case "windows":
@@ -43,7 +43,12 @@ func SystemInfo() *Environment {
 		if "root" == os.Getenv("USER") {
 			it.Graphics = strings.Join(graphics(), ", ")
 		}
+		if it.Platform == "" {
+			it.android()
+		}
 	}
+
+	it.Platform += "/" + runtime.GOARCH
 	return it
 }
 
@@ -60,12 +65,23 @@ func (it *Environment) cpuTitle() *Environment {
 		it.Processor = strings.TrimSpace(strings.Split(stat[0].ModelName, "@")[0])
 	default:
 		it.Processor = stat[0].ModelName
+		if it.Processor == "" {
+			fp := "/proc/cpuinfo"
+			for _, elem := range strings.Split(String(&fp), "\n") {
+				if strings.HasPrefix(elem, "Hardware") {
+					it.Processor = strings.TrimSpace(strings.Split(elem, ":")[1])
+				}
+				if strings.HasPrefix(elem, "Model") {
+					it.Vendor = strings.TrimSpace(strings.Split(elem, ":")[1])
+				}
+			}
+		}
 	}
 	pei := carefullySelectedCPUs[it.Processor]
 	if pei.Power != "" {
-		it.Perf += fmt.Sprintf(" Hertz(Max:%s Power:%s).T%d", pei.HertzMax, pei.Power, runtime.NumCPU())
+		it.Perf += fmt.Sprintf("Hertz=Max:%s.T%d Power:%s", pei.HertzMax, runtime.NumCPU(), pei.Power)
 	} else {
-		it.Perf += fmt.Sprintf(" Hertz(%.2fG).T%d", stat[0].Mhz/1000, runtime.NumCPU())
+		it.Perf += fmt.Sprintf("Hertz=%.2fG.T%d", stat[0].Mhz/1000, runtime.NumCPU())
 	}
 	info, _ := mem.VirtualMemory()
 	if info != nil {

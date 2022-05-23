@@ -1,13 +1,25 @@
 package internal
 
 import (
+	"bytes"
 	"fmt"
 	"golang.org/x/sys/unix"
 	"strings"
 )
 
+func commandMerge(stdout, stderr *bytes.Buffer) string {
+	if stderr.Len() != 0 {
+		stdout.WriteString("\n")
+		stdout.Write(stderr.Bytes())
+	}
+	return stdout.String()
+}
+
 func (it *Environment) vendor() *Environment {
-	it.Vendor = strings.TrimSpace(String("/sys/class/dmi/id/sys_vendor"))
+	fp := "/sys/class/dmi/id/sys_vendor"
+	if FileExist(fp) {
+		it.Vendor = strings.TrimSpace(String(&fp))
+	}
 	return it
 }
 
@@ -21,12 +33,16 @@ func (it *Environment) kernel() *Environment {
 	return it
 }
 
-func (it *Environment) release() {
+func (it *Environment) release() *Environment {
 	var NAME, VERSION, ID, ID_LIKE string
 	var v = func(s string, l int) string {
 		return strings.Trim(s[l:], "\"")
 	}
-	for _, elem := range strings.Split(String("/etc/os-release"), "\n") {
+	fp := "/etc/os-release"
+	if !FileExist(fp) {
+		return it
+	}
+	for _, elem := range strings.Split(String(&fp), "\n") {
 		switch {
 		case strings.HasPrefix(elem, "NAME="):
 			NAME = v(elem, 5)
@@ -45,7 +61,17 @@ func (it *Environment) release() {
 			it.Platform = strings.Fields(ID_LIKE)[0]
 		}
 	}
+	return it
+}
 
+func (it *Environment) android() *Environment {
+	it.Platform = strings.ToLower(CommandArgs("", []string{"uname", "-o"}))
+	if it.Platform == "android" {
+		it.Processor = CommandArgs("", []string{"getprop", "ro.config.cpu_info_display"})
+		it.Vendor = CommandArgs("", []string{"getprop", "ro.product.manufacturer"})
+		it.Name = "Android " + CommandArgs("", []string{"getprop", "ro.system.build.version.release"})
+	}
+	return it
 }
 
 var releaseSet = map[string]*struct{}{
