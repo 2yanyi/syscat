@@ -39,6 +39,10 @@ func (it *Environment) release() *Environment {
 	return it
 }
 
+func (it *Environment) storage() *Environment {
+	return it
+}
+
 func (it *Environment) android() *Environment {
 	return it
 }

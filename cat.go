@@ -2,7 +2,9 @@ package cat
 
 import (
 	"github.com/json-iterator/go"
-	"github.com/matsuwin/cat/internal"
+	"r/cat/internal"
+
+	// "github.com/matsuwin/cat/internal"
 	"os"
 )
 

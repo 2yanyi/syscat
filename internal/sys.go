@@ -23,7 +23,7 @@ type Environment struct {
 
 func SystemInfo() *Environment {
 	it := &Environment{}
-	it.vendor().kernel().release().cpuTitle()
+	it.vendor().kernel().release().cpuTitle().storage()
 	switch runtime.GOOS {
 
 	case "windows":
@@ -53,7 +53,7 @@ func SystemInfo() *Environment {
 }
 
 func (it *Environment) cpuTitle() *Environment {
-	it.Perf = fmt.Sprintf("%d @ ", processorSpeed())
+	it.Perf = fmt.Sprintf("%d & ", processorSpeed())
 	stat, _ := cpu.Info()
 	if len(stat) == 0 {
 		return it
@@ -80,7 +80,7 @@ func (it *Environment) cpuTitle() *Environment {
 	it.Perf += fmt.Sprintf("Hertz=%.1fG.T%d", stat[0].Mhz/1000, runtime.NumCPU())
 	info, _ := mem.VirtualMemory()
 	if info != nil {
-		it.Perf += fmt.Sprintf(" - Memory(%s)", SizeFormat(float64(info.Total)))
+		it.Perf += fmt.Sprintf(" - Memory=%s", SizeFormat(float64(info.Total)))
 	}
 	return it
 }

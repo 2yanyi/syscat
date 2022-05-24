@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"golang.org/x/sys/unix"
+	"strconv"
 	"strings"
 )
 
@@ -59,6 +60,33 @@ func (it *Environment) release() *Environment {
 	if _, has := releaseSet[ID]; !has {
 		if ID_LIKE != "" {
 			it.Platform = strings.Fields(ID_LIKE)[0]
+		}
+	}
+	return it
+}
+
+func (it *Environment) storage() *Environment {
+	text := CommandArgs("", []string{"df", "/"})
+	for i, elem := range strings.Split(text, "\n") {
+		if i == 1 {
+			values := strings.Fields(elem)
+			if len(values) != 6 {
+				continue
+			}
+			avail, _ := strconv.ParseInt(values[3], 0, 64)
+			size, _ := strconv.ParseInt(values[1], 0, 64)
+			it.Perf += fmt.Sprintf(" DF=[ Avail:%s / %s ]", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
+			break
+		}
+		if i == 2 {
+			values := strings.Fields(elem)
+			if len(values) != 5 {
+				continue
+			}
+			avail, _ := strconv.ParseInt(values[2], 0, 64)
+			size, _ := strconv.ParseInt(values[0], 0, 64)
+			it.Perf += fmt.Sprintf(" DF=[ Avail:%s / %s ]", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
+			break
 		}
 	}
 	return it
