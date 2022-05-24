@@ -1,8 +1,6 @@
 package internal
 
-import (
-	"time"
-)
+import "time"
 
 func fibonacci(n int) int {
 	if n > 1 {
@@ -17,8 +15,8 @@ func eating() {
 	}
 }
 
-func processorSpeed() int {
+func processorSpeed() float64 {
 	start := time.Now()
 	eating()
-	return int(time.Now().Sub(start).Milliseconds())
+	return time.Now().Sub(start).Seconds()
 }
