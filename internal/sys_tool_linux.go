@@ -1,20 +1,11 @@
 package internal
 
 import (
-	"bytes"
 	"fmt"
 	"golang.org/x/sys/unix"
 	"strconv"
 	"strings"
 )
-
-func commandMerge(stdout, stderr *bytes.Buffer) string {
-	if stderr.Len() != 0 {
-		stdout.WriteString("\n")
-		stdout.Write(stderr.Bytes())
-	}
-	return stdout.String()
-}
 
 func (it *Environment) vendor() *Environment {
 	fp := "/sys/class/dmi/id/sys_vendor"
@@ -43,16 +34,17 @@ func (it *Environment) release() *Environment {
 	if !FileExist(fp) {
 		return it
 	}
-	for _, elem := range strings.Split(String(&fp), "\n") {
+	ls := strings.Split(String(&fp), "\n")
+	for i := 0; i < len(ls); i++ {
 		switch {
-		case strings.HasPrefix(elem, "NAME="):
-			NAME = v(elem, 5)
-		case strings.HasPrefix(elem, "VERSION="):
-			VERSION = v(elem, 8)
-		case strings.HasPrefix(elem, "ID="):
-			ID = v(elem, 3)
-		case strings.HasPrefix(elem, "ID_LIKE="):
-			ID_LIKE = v(elem, 8)
+		case strings.HasPrefix(ls[i], "NAME="):
+			NAME = v(ls[i], 5)
+		case strings.HasPrefix(ls[i], "VERSION="):
+			VERSION = v(ls[i], 8)
+		case strings.HasPrefix(ls[i], "ID="):
+			ID = v(ls[i], 3)
+		case strings.HasPrefix(ls[i], "ID_LIKE="):
+			ID_LIKE = v(ls[i], 8)
 		}
 	}
 	it.Name = strings.Join([]string{NAME, VERSION}, " ")
@@ -67,25 +59,26 @@ func (it *Environment) release() *Environment {
 
 func (it *Environment) storage() *Environment {
 	text := CommandArgs("", []string{"df", "/"})
-	for i, elem := range strings.Split(text, "\n") {
+	ls := strings.Split(text, "\n")
+	for i := 0; i < len(ls); i++ {
 		if i == 1 {
-			values := strings.Fields(elem)
+			values := strings.Fields(ls[i])
 			if len(values) != 6 {
 				continue
 			}
 			avail, _ := strconv.ParseInt(values[3], 0, 64)
 			size, _ := strconv.ParseInt(values[1], 0, 64)
-			it.Perf += fmt.Sprintf(" DF=[ Avail:%s / %s ]", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
+			it.Perf += fmt.Sprintf(" Disk=Avail:%s/%s", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
 			break
 		}
 		if i == 2 {
-			values := strings.Fields(elem)
+			values := strings.Fields(ls[i])
 			if len(values) != 5 {
 				continue
 			}
 			avail, _ := strconv.ParseInt(values[2], 0, 64)
 			size, _ := strconv.ParseInt(values[0], 0, 64)
-			it.Perf += fmt.Sprintf(" DF=[ Avail:%s / %s ]", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
+			it.Perf += fmt.Sprintf(" Disk=Avail:%s/%s", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
 			break
 		}
 	}

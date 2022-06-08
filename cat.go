@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func SizeFormat(bytes float64) (_ string) { return internal.SizeFormat(bytes) }
+func SizeFormat(bytes float64) string { return internal.SizeFormat(bytes) }
 
 func Stderr(err string) { internal.Stderr(err) }
 
@@ -20,7 +20,7 @@ func MD5sumChunked(fp string) (os.FileInfo, string, error) { return internal.MD5
 
 func FileExist(fp string) bool { return internal.FileExist(fp) }
 
-func CommandArgs(dir string, args []string) (_ string) { return internal.CommandArgs(dir, args) }
+func CommandArgs(dir string, args []string) string { return internal.CommandArgs(dir, args) }
 
 func Json(a interface{}) []byte { return internal.Json(a) }
 

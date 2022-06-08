@@ -12,7 +12,6 @@ import (
 	"net"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 	"unsafe"
 
@@ -112,18 +111,21 @@ func FileExist(fp string) bool {
 }
 
 func CommandArgs(dir string, args []string) (_ string) {
-	if len(args) != 0 {
-		stdout, stderr := &bytes.Buffer{}, &bytes.Buffer{}
-		cmd := exec.Command(args[0])
-		cmd.Stdout, cmd.Stderr = stdout, stderr
-		cmd.Args = args
-		if dir != "" {
-			cmd.Dir = filepath.Dir(dir)
-		}
-		_ = cmd.Run()
-		return strings.TrimSpace(commandMerge(stdout, stderr))
+	if len(args) == 0 {
+		return
 	}
-	return
+	buffer := &bytes.Buffer{}
+	stdWrite := io.MultiWriter(buffer)
+	cmd := exec.Command(args[0])
+	cmd.Stdout, cmd.Stderr = stdWrite, stdWrite
+	cmd.Args = args
+	if dir != "" {
+		cmd.Dir = dir
+	}
+	if err := cmd.Run(); err != nil {
+		Stderr(err.Error())
+	}
+	return strings.TrimSpace(buffer.String())
 }
 
 func Json(a interface{}) []byte {
@@ -141,7 +143,7 @@ func JsonIter() jsoniter.API {
 func LanAddress() []string {
 	address := make([]string, 0, 10)
 	nia, _ := net.InterfaceAddrs()
-	for i := range nia {
+	for i := 0; i < len(nia); i++ {
 		if addr, has := nia[i].(*net.IPNet); has {
 			ipv4 := addr.IP.String()
 			if ipv4 == "127.0.0.1" || strings.Contains(ipv4, ":") {
@@ -154,5 +156,5 @@ func LanAddress() []string {
 }
 
 const _KB = 1024
-const _MB = 1024 * 1024
-const _GB = 1024 * 1024 * 1024
+const _MB = _KB * 1024
+const _GB = _MB * 1024

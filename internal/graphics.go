@@ -14,23 +14,23 @@ func graphics() []string {
 	if info == nil {
 		return nil
 	}
-	for _, driver := range info.GraphicsCards {
-		if driver == nil {
+	for i := 0; i < len(info.GraphicsCards); i++ {
+		if info.GraphicsCards[i] == nil {
 			continue
 		}
-		if driver.DeviceInfo == nil {
+		if info.GraphicsCards[i].DeviceInfo == nil {
 			continue
 		}
-		if driver.DeviceInfo.Product == nil {
+		if info.GraphicsCards[i].DeviceInfo.Product == nil {
 			continue
 		}
-		if driver.DeviceInfo.Product.Name == "SVGA II Adapter" {
+		if info.GraphicsCards[i].DeviceInfo.Product.Name == "SVGA II Adapter" {
 			continue
 		}
-		if strings.Contains(driver.DeviceInfo.Product.Name, "Graphics") {
+		if strings.Contains(info.GraphicsCards[i].DeviceInfo.Product.Name, "Graphics") {
 			continue
 		}
-		drivers = append(drivers, driver.DeviceInfo.Product.Name)
+		drivers = append(drivers, info.GraphicsCards[i].DeviceInfo.Product.Name)
 	}
 	return drivers
 }
