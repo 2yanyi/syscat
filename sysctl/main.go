@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/matsuwin/cat"
 	"os"
-	"r/pkg/cat"
 )
 
 func main() {

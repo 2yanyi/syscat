@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"r/pkg/cat"
+	"github.com/matsuwin/cat"
 )
 
 func main() {

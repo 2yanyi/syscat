@@ -50,18 +50,18 @@ func Bytes(fp *string) []byte {
 }
 
 func Wcl(fp *string) int {
-	fis, err := os.Open(*fp)
+	src, err := os.Open(*fp)
 	if err != nil {
 		return 0
 	}
-	defer fis.Close()
+	defer src.Close()
 
 	buf := make([]byte, 1024*32)
 	sep := []byte{'\n'}
 	wcl := 0
 	n := 0
 	for {
-		n, err = fis.Read(buf)
+		n, err = src.Read(buf)
 		wcl += bytes.Count(buf[:n], sep)
 		switch {
 		case err == io.EOF:
@@ -73,13 +73,13 @@ func Wcl(fp *string) int {
 }
 
 func MD5sumChunked(fp *string) (os.FileInfo, string, error) {
-	fis, err := os.Open(*fp)
+	src, err := os.Open(*fp)
 	if err != nil {
 		return nil, "", errors.New(err.Error())
 	}
-	defer fis.Close()
+	defer src.Close()
 
-	info, _ := fis.Stat()
+	info, _ := src.Stat()
 	if info.IsDir() {
 		return info, "", errors.New(fmt.Sprintf("%s is a directory", *fp))
 	}
@@ -91,7 +91,7 @@ func MD5sumChunked(fp *string) (os.FileInfo, string, error) {
 	for i := uint64(0); i < blocks; i++ {
 		blockSize := int(math.Min(_MB, float64(size-int64(i*_MB))))
 		buf := make([]byte, blockSize)
-		if _, err = fis.Read(buf); err != nil {
+		if _, err = src.Read(buf); err != nil {
 			return info, "", errors.New(err.Error())
 		}
 		if _, err = io.WriteString(hash, string(buf)); err != nil {
