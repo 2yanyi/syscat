@@ -21,7 +21,7 @@ type Environment struct {
 	Init      string `json:"init,omitempty"`
 }
 
-func SystemInfo() *Environment {
+func Syscat() *Environment {
 	it := &Environment{}
 	it.vendor().kernel().release().cpuTitle().storage()
 	switch runtime.GOOS {

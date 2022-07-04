@@ -14,8 +14,6 @@ import (
 	"os/exec"
 	"strings"
 	"unsafe"
-
-	_ "github.com/matsuwin/errcause"
 )
 
 func SizeFormat(bytes float64) (_ string) {

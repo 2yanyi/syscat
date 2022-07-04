@@ -28,4 +28,8 @@ func JsonIter() jsoniter.API { return internal.JsonIter() }
 
 func LanAddress() []string { return internal.LanAddress() }
 
-func SystemInfo() *internal.Environment { return internal.SystemInfo() }
+// extends
+
+func Syscat() *internal.Environment { return internal.Syscat() }
+
+func Sysctl(action, name string) error { return internal.Sysctl(action, name) }

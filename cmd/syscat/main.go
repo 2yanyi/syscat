@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/matsuwin/cat"
+	"r/pkg/cat"
 )
 
 func main() {
-	info := cat.SystemInfo()
+	info := cat.Syscat()
 	fmt.Printf("%s\n", cat.Json(info))
 }
