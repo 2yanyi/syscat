@@ -127,15 +127,11 @@ func CommandArgs(dir string, args []string) (_ string) {
 }
 
 func Json(a interface{}) []byte {
-	data, err := JsonIter().MarshalIndent(a, "", "  ")
+	data, err := jsoniter.ConfigFastest.MarshalIndent(a, "", "  ")
 	if err != nil {
 		Stderr(err.Error())
 	}
 	return data
-}
-
-func JsonIter() jsoniter.API {
-	return jsoniter.ConfigFastest
 }
 
 func LanAddress() []string {

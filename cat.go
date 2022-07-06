@@ -24,11 +24,11 @@ func CommandArgs(dir string, args []string) string { return internal.CommandArgs
 
 func Json(a interface{}) []byte { return internal.Json(a) }
 
-func JsonIter() jsoniter.API { return internal.JsonIter() }
-
 func LanAddress() []string { return internal.LanAddress() }
 
 // extends
+
+func JsonIter() jsoniter.API { return jsoniter.ConfigFastest }
 
 func Syscat() *internal.Environment { return internal.Syscat() }
 
