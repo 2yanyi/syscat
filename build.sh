@@ -8,12 +8,10 @@ fi
 # build
 if [[ $1 == "static" ]]
 then
-    go build -ldflags '-linkmode "external" -extldflags "-static"' -o bin/syscat syscat/main.go
-    go build -ldflags '-linkmode "external" -extldflags "-static"' -o bin/sysctl sysctl/main.go
+    go build -ldflags '-linkmode "external" -extldflags "-static"' -o bin/syscat main.go
 
 else
     export GOPROXY=https://goproxy.cn
     gofmt -w .
-    go build -o bin/syscat syscat/main.go
-    go build -o bin/sysctl sysctl/main.go
+    go build -o bin/syscat main.go
 fi
