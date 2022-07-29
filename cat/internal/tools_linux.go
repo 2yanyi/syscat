@@ -3,7 +3,6 @@ package internal
 import (
 	"fmt"
 	"golang.org/x/sys/unix"
-	"strconv"
 	"strings"
 )
 
@@ -57,34 +56,6 @@ func (it *Environment) release() *Environment {
 	return it
 }
 
-func (it *Environment) storage() *Environment {
-	text := CommandArgs("", []string{"df", "/"})
-	ls := strings.Split(text, "\n")
-	for i := 0; i < len(ls); i++ {
-		if i == 1 {
-			values := strings.Fields(ls[i])
-			if len(values) != 6 {
-				continue
-			}
-			avail, _ := strconv.ParseInt(values[3], 0, 64)
-			size, _ := strconv.ParseInt(values[1], 0, 64)
-			it.Perf += fmt.Sprintf(" Disk=Avail:%s/%s", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
-			break
-		}
-		if i == 2 {
-			values := strings.Fields(ls[i])
-			if len(values) != 5 {
-				continue
-			}
-			avail, _ := strconv.ParseInt(values[2], 0, 64)
-			size, _ := strconv.ParseInt(values[0], 0, 64)
-			it.Perf += fmt.Sprintf(" Disk=Avail:%s/%s", SizeFormat(float64(avail*1000)), SizeFormat(float64(size*1000)))
-			break
-		}
-	}
-	return it
-}
-
 func (it *Environment) android() *Environment {
 	it.Platform = strings.ToLower(CommandArgs("", []string{"uname", "-o"}))
 	if it.Platform == "android" {
@@ -95,10 +66,10 @@ func (it *Environment) android() *Environment {
 	return it
 }
 
-var releaseSet = map[string]*struct{}{
-	"fedora": nil,
-	"rhel":   nil,
-	"centos": nil,
-	"debian": nil,
-	"ubuntu": nil,
+var releaseSet = map[string]byte{
+	"fedora": 0,
+	"rhel":   0,
+	"centos": 0,
+	"debian": 0,
+	"ubuntu": 0,
 }

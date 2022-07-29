@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"github.com/shirou/gopsutil/v3/cpu"
+	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
 	"os"
 	"os/exec"
@@ -83,5 +84,14 @@ func (it *Environment) cpuTitle() *Environment {
 	if info != nil {
 		it.Perf += fmt.Sprintf(" Memory=%s", SizeFormat(float64(info.Total)))
 	}
+	return it
+}
+
+func (it *Environment) storage() *Environment {
+	usage, err := disk.Usage("/")
+	if err != nil {
+		panic(err)
+	}
+	it.Perf += fmt.Sprintf(" Disk=Avail:%s/%s", SizeFormat(float64(usage.Free)), SizeFormat(float64(usage.Total)))
 	return it
 }
