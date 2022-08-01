@@ -9,7 +9,6 @@ import (
 	"github.com/pkg/errors"
 	"io"
 	"math"
-	"net"
 	"os"
 	"os/exec"
 	"strings"
@@ -108,7 +107,7 @@ func FileExist(fp string) bool {
 	return !os.IsNotExist(err)
 }
 
-func CommandArgs(dir string, args []string) (_ string) {
+func Commandline(dir string, args []string) (_ string) {
 	if len(args) == 0 {
 		return
 	}
@@ -134,21 +133,6 @@ func Json(a interface{}) []byte {
 	return data
 }
 
-func LanAddress() []string {
-	address := make([]string, 0, 10)
-	nia, _ := net.InterfaceAddrs()
-	for i := 0; i < len(nia); i++ {
-		if addr, has := nia[i].(*net.IPNet); has {
-			ipv4 := addr.IP.String()
-			if ipv4 == "127.0.0.1" || strings.Contains(ipv4, ":") {
-				continue
-			}
-			address = append(address, ipv4)
-		}
-	}
-	return address
-}
-
 const _KB = 1024
-const _MB = _KB * 1024
-const _GB = _MB * 1024
+const _MB = _KB * _KB
+const _GB = _MB * _KB
