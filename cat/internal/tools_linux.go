@@ -57,11 +57,11 @@ func (it *Environment) release() *Environment {
 }
 
 func (it *Environment) android() *Environment {
-	it.Platform = strings.ToLower(CommandArgs("", []string{"uname", "-o"}))
+	it.Platform = strings.ToLower(Commandline("", []string{"uname", "-o"}))
 	if it.Platform == "android" {
-		it.Processor = CommandArgs("", []string{"getprop", "ro.config.cpu_info_display"})
-		it.Vendor = CommandArgs("", []string{"getprop", "ro.product.manufacturer"})
-		it.Name = "Android " + CommandArgs("", []string{"getprop", "ro.system.build.version.release"})
+		it.Processor = Commandline("", []string{"getprop", "ro.config.cpu_info_display"})
+		it.Vendor = Commandline("", []string{"getprop", "ro.product.manufacturer"})
+		it.Name = "Android " + Commandline("", []string{"getprop", "ro.system.build.version.release"})
 	}
 	return it
 }

@@ -20,7 +20,7 @@ func MD5sumChunked(fp string) (os.FileInfo, string, error) { return internal.MD5
 
 func FileExist(fp string) bool { return internal.FileExist(fp) }
 
-func CommandArgs(dir string, args []string) string { return internal.Commandline(dir, args) }
+func Commandline(dir string, args []string) string { return internal.Commandline(dir, args) }
 
 func Json(a interface{}) []byte { return internal.Json(a) }
 
