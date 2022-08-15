@@ -125,7 +125,7 @@ func Commandline(dir string, args []string) (_ string) {
 	return strings.TrimSpace(buffer.String())
 }
 
-func Json(a interface{}) []byte {
+func JsonFormat(a interface{}) []byte {
 	data, err := jsoniter.ConfigFastest.MarshalIndent(a, "", "  ")
 	if err != nil {
 		Stderr(err.Error())

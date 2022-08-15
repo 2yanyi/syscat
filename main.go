@@ -9,7 +9,7 @@ import (
 func main() {
 	args := len(os.Args)
 	if args == 1 {
-		fmt.Printf("%s\n", cat.Json(cat.Syscat()))
+		fmt.Printf("%s\n", cat.JsonFormat(cat.Syscat()))
 		return
 	}
 	if args < 3 {

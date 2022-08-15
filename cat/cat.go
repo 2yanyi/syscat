@@ -22,12 +22,12 @@ func FileExist(fp string) bool { return internal.FileExist(fp) }
 
 func Commandline(dir string, args []string) string { return internal.Commandline(dir, args) }
 
-func Json(a interface{}) []byte { return internal.Json(a) }
+func JsonFormat(a interface{}) []byte { return internal.JsonFormat(a) }
 
 // extends
 
-func JsonIter() jsoniter.API { return jsoniter.ConfigFastest }
+func Sysctl(action, name string) error { return internal.Sysctl(action, name) }
 
 func Syscat() *internal.Environment { return internal.Syscat() }
 
-func Sysctl(action, name string) error { return internal.Sysctl(action, name) }
+var Json = jsoniter.ConfigFastest
