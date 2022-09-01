@@ -24,7 +24,7 @@ func RandomChars(n int) []byte { return internal.RandomChars(n) }
 
 func Commandline(dir string, args []string) string { return internal.Commandline(dir, args) }
 
-func BashC(dir, sh string) string { return BashC(dir, sh) }
+func BashC(dir, sh string) string { return internal.BashC(dir, sh) }
 
 func JsonFormat(a interface{}) []byte { return internal.JsonFormat(a) }
 
