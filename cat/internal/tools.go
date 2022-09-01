@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 	"io"
 	"math"
+	"math/rand"
 	"os"
 	"os/exec"
 	"strings"
@@ -32,7 +33,7 @@ func Stderr(err string) {
 	}
 }
 
-func String(fp *string) string {
+func String(fp string) string {
 	a := Bytes(fp)
 	if len(a) > 32 {
 		return *(*string)(unsafe.Pointer(&a))
@@ -40,16 +41,16 @@ func String(fp *string) string {
 	return string(a)
 }
 
-func Bytes(fp *string) []byte {
-	data, err := os.ReadFile(*fp)
+func Bytes(fp string) []byte {
+	data, err := os.ReadFile(fp)
 	if err != nil {
 		Stderr(err.Error())
 	}
 	return data
 }
 
-func Wcl(fp *string) int {
-	src, err := os.Open(*fp)
+func Wcl(fp string) int {
+	src, err := os.Open(fp)
 	if err != nil {
 		return 0
 	}
@@ -71,8 +72,8 @@ func Wcl(fp *string) int {
 	}
 }
 
-func MD5sumChunked(fp *string) (os.FileInfo, string, error) {
-	src, err := os.Open(*fp)
+func MD5sumChunked(fp string) (os.FileInfo, string, error) {
+	src, err := os.Open(fp)
 	if err != nil {
 		return nil, "", errors.New(err.Error())
 	}
@@ -80,7 +81,7 @@ func MD5sumChunked(fp *string) (os.FileInfo, string, error) {
 
 	info, _ := src.Stat()
 	if info.IsDir() {
-		return info, "", errors.New(fmt.Sprintf("%s is a directory", *fp))
+		return info, "", errors.New(fmt.Sprintf("%s is a directory", fp))
 	}
 
 	// Chunked calculations
@@ -107,6 +108,14 @@ func FileExist(fp string) bool {
 	return !os.IsNotExist(err)
 }
 
+func RandomChars(n int) []byte {
+	buf := make([]byte, n)
+	for i := 0; i < n; i++ {
+		buf[i] = letterBytes[rand.Int63()%int64(len(letterBytes))]
+	}
+	return buf
+}
+
 func Commandline(dir string, args []string) (_ string) {
 	if len(args) == 0 {
 		return
@@ -116,6 +125,20 @@ func Commandline(dir string, args []string) (_ string) {
 	cmd := exec.Command(args[0])
 	cmd.Stdout, cmd.Stderr = stdWrite, stdWrite
 	cmd.Args = args
+	if dir != "" {
+		cmd.Dir = dir
+	}
+	if err := cmd.Run(); err != nil {
+		Stderr(err.Error())
+	}
+	return strings.TrimSpace(buffer.String())
+}
+
+func BashC(dir, sh string) string {
+	buffer := &bytes.Buffer{}
+	stdWrite := io.MultiWriter(buffer)
+	cmd := exec.Command("bash", "-c", sh)
+	cmd.Stdout, cmd.Stderr = stdWrite, stdWrite
 	if dir != "" {
 		cmd.Dir = dir
 	}
@@ -136,3 +159,5 @@ func JsonFormat(a interface{}) []byte {
 const _KB = 1024
 const _MB = _KB * _KB
 const _GB = _MB * _KB
+
+const letterBytes = "0123456789._=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"

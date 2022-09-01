@@ -29,19 +29,19 @@ func RunesToString(a []rune) string {
 }
 
 // StringToBytes is equivalent to []byte(a)
-func StringToBytes(a *string) []byte {
-	if len(*a) > _size {
-		return *(*[]byte)(unsafe.Pointer(str2slice((*reflect.StringHeader)(unsafe.Pointer(a)))))
+func StringToBytes(a string) []byte {
+	if len(a) > _size {
+		return *(*[]byte)(unsafe.Pointer(str2slice((*reflect.StringHeader)(unsafe.Pointer(&a)))))
 	}
-	return []byte(*a)
+	return []byte(a)
 }
 
 // StringToRunes is equivalent to []rune(a)
-func StringToRunes(a *string) []rune {
-	if len(*a) > _size {
-		return *(*[]rune)(unsafe.Pointer(str2slice((*reflect.StringHeader)(unsafe.Pointer(a)))))
+func StringToRunes(a string) []rune {
+	if len(a) > _size {
+		return *(*[]rune)(unsafe.Pointer(str2slice((*reflect.StringHeader)(unsafe.Pointer(&a)))))
 	}
-	return []rune(*a)
+	return []rune(a)
 }
 
 func str2slice(str *reflect.StringHeader) *reflect.SliceHeader {

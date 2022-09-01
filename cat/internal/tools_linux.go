@@ -9,7 +9,7 @@ import (
 func (it *Environment) vendor() *Environment {
 	fp := "/sys/class/dmi/id/sys_vendor"
 	if FileExist(fp) {
-		it.Vendor = strings.TrimSpace(String(&fp))
+		it.Vendor = strings.TrimSpace(String(fp))
 	}
 	return it
 }
@@ -33,7 +33,7 @@ func (it *Environment) release() *Environment {
 	if !FileExist(fp) {
 		return it
 	}
-	ls := strings.Split(String(&fp), "\n")
+	ls := strings.Split(String(fp), "\n")
 	for i := 0; i < len(ls); i++ {
 		switch {
 		case strings.HasPrefix(ls[i], "NAME="):

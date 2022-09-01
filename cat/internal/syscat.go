@@ -67,8 +67,7 @@ func (it *Environment) cpuTitle() *Environment {
 	default:
 		it.Processor = stat[0].ModelName
 		if it.Processor == "" {
-			fp := "/proc/cpuinfo"
-			ls := strings.Split(String(&fp), "\n")
+			ls := strings.Split(String("/proc/cpuinfo"), "\n")
 			for i := 0; i < len(ls); i++ {
 				if strings.HasPrefix(ls[i], "Hardware") {
 					it.Processor = strings.TrimSpace(strings.Split(ls[i], ":")[1])
